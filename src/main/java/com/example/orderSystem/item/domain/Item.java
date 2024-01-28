@@ -1,5 +1,6 @@
 package com.example.orderSystem.item.domain;
 
+import com.example.orderSystem.ordering.domain.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,4 +32,12 @@ public class Item {
     @Column(columnDefinition = "TIMESTAMP ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP") // update 시 갱신
     private LocalDateTime updatedTime;
 
+    public void stockUpdate(OrderStatus orderStatus, Long count) {
+        if(orderStatus == OrderStatus.ORDERED) {
+            this.stockQuantity -= count;
+        }
+        if(orderStatus == OrderStatus.CANCELED) {
+            this.stockQuantity += count;
+        }
+    }
 }
